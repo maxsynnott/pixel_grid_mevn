@@ -1,10 +1,13 @@
 const express = require('express')
+const cors = require('cors')
 
 const app = express()
 
+app.use(cors())
+
 app.get('/test', (req, res) => {
   res.send({
-      message: "Hello World!"	
+    message: "Hello World!"	
   })
 })
 
@@ -21,7 +24,7 @@ app.get('/random/:width/:height', (req, res) => {
 	}
 
 	res.send({
-		data: pixelData
+		pixels: pixelData
 	})
 })
 

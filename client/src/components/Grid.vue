@@ -17,27 +17,32 @@
 </style>
 
 <script>
-	
+	import GridService from '@/services/GridService'
 
 	export default {
 		name: 'grid',
-		data () {
+		data: () => {
+			return {
 
+			}
 		},
 		mounted() {
-			const canvas = document.getElementById('canvas');
-			const ctx = canvas.getContext('2d');
+			this.getRandomGrid()
+		},
+		methods: {
+			async getRandomGrid () {
+				const response = await GridService.randomGrid(500, 500)
 
-			let pixelData = [];
+				const canvas = document.getElementById('canvas');
+				const ctx = canvas.getContext('2d');
 
-			for (let i = 0; i < 500 * 500 * 4; i++) {
-				pixelData.push(Math.round(Math.random() * 255))
+				const pixelData = response.data.pixels
+
+				const clampedPixelArray = Uint8ClampedArray.from(pixelData);
+				const pixelGridData = new ImageData(clampedPixelArray, 500, 500);
+
+				ctx.putImageData(pixelGridData, 0, 0);
 			}
-
-			const clampedPixelArray = Uint8ClampedArray.from(pixelData);
-			const pixelGridData = new ImageData(clampedPixelArray, 500, 500);
-
-			ctx.putImageData(pixelGridData, 0, 0);
 		}
 	}
 </script>
