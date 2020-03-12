@@ -1,6 +1,6 @@
 <template>
 	<div id="grid">
-		<!-- <h1>{{ title }}</h1> -->
+		<h1>Grid</h1>
 
 		<canvas 
 			id="canvas"
