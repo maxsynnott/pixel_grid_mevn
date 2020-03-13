@@ -3,10 +3,9 @@
 		<h1>{{ title }}</h1>
 
 		<canvas 
-			id="canvas"
+			ref="grid_canvas"
 			:width="width"
-			:height="height"
-			>
+			:height="height">
 		</canvas>
 	</div>
 </template>
@@ -31,12 +30,13 @@
 		},
 		mounted() {
 			this.getRandomGrid()
+			this.activatePanzoom()
 		},
 		methods: {
 			async getRandomGrid () {
 				const response = await GridService.randomGrid(this.width, this.height)
 
-				const canvas = document.getElementById('canvas');
+				const canvas = this.$refs['grid_canvas'];
 				const ctx = canvas.getContext('2d');
 
 				const pixelData = response.data.pixels
@@ -45,6 +45,13 @@
 				const pixelGridData = new ImageData(clampedPixelArray, this.width, this.height);
 
 				ctx.putImageData(pixelGridData, 0, 0);
+			},
+			activatePanzoom () {
+				const panzoom = require('panzoom')
+
+				const grid = this.$refs['grid_canvas']
+
+				panzoom(grid)
 			}
 		}
 	}
