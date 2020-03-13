@@ -21,7 +21,6 @@
 		name: 'grid',
 		data: () => {
 			return {
-				title: 'Grid',
 				width: 500,
 				height: 500,
 				mouseX: null,
@@ -56,8 +55,11 @@
 				console.log(controller)
 			},
 			leftClick () {
-				console.log(this.mouseX)
-				console.log(this.mouseY)
+				const canvas = this.$refs['grid_canvas'];
+				const ctx = canvas.getContext('2d');
+
+				ctx.fillStyle = 'white';
+				ctx.fillRect(this.mouseX, this.mouseY, 1, 1);
 			},
 			mouseMove (event) {
 				const grid = this.$refs['grid_canvas']
