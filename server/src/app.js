@@ -27,12 +27,9 @@ app.use(cors())
 app.use(bodyParser.json())
 //
 
+// Create new db filled with random data, currently slow (500 x 500 reasonable limit)
 app.post('/grids', (req, res) => {
 	const db = req.db;
-
-	console.log('below')
-	console.log(req)
-	console.log(req.body)
 
 	const width = req.body.width;
 	const height = req.body.height;
@@ -44,6 +41,8 @@ app.post('/grids', (req, res) => {
 		}
 
 		pixels.push(255)
+
+		console.log(pixels.length)
 	}
 
 	const new_grid = new Grid({
@@ -52,22 +51,33 @@ app.post('/grids', (req, res) => {
 		pixels: pixels
 	})
 
+	console.log('saving')
 	new_grid.save(function (error) {
+		console.log('Im here')
 		if (error) {
+			console.log('failure')
 			res.send({
 				success: false
 			})
 		} else {
+			console.log('success')
 			res.send({
 				success: true
 			})
 		}
 	})
+	console.log('saving complete')
 })
 
-
-
-
+// Returns first grid data
+app.get('/grid', (req, res) => {
+	Grid.find({}, 'width height pixels', function (error, grids) {
+		res.send({
+			success:true,
+			grid: grids[0]
+		})
+	})
+})
 
 
 app.get('/random/:width/:height', (req, res) => {
