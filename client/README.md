@@ -1,4 +1,12 @@
+# pixelGrid
+WIP
+
 # client
+
+## Before any commands
+```
+cd client
+```
 
 ## Project setup
 ```
@@ -10,15 +18,20 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
+
+# server
+
+## Before any commands
 ```
-npm run build
+cd server
 ```
 
-### Lints and fixes files
+## Project setup
 ```
-npm run lint
+npm install
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Compiles and hot-reloads for development
+```
+npm start
+```
