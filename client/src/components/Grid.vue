@@ -13,6 +13,7 @@
 <style>
 	canvas {
 		border: 1px solid black;
+		image-rendering: pixelated;
 	}
 </style>
 
@@ -51,7 +52,11 @@
 
 				const grid = this.$refs['grid_canvas']
 
-				panzoom(grid)
+				const controller = panzoom(
+					grid
+				)
+
+				console.log(controller)
 			}
 		}
 	}
