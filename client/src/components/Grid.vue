@@ -1,11 +1,12 @@
 <template>
 	<div id="grid">
-		<h1>Grid</h1>
+		<h1>{{ title }}</h1>
 
 		<canvas 
 			id="canvas"
-			height="500px"
-			width="500px">
+			:width="width"
+			:height="height"
+			>
 		</canvas>
 	</div>
 </template>
@@ -23,7 +24,9 @@
 		name: 'grid',
 		data: () => {
 			return {
-
+				title: 'Grid',
+				width: 500,
+				height: 500
 			}
 		},
 		mounted() {
@@ -31,7 +34,7 @@
 		},
 		methods: {
 			async getRandomGrid () {
-				const response = await GridService.randomGrid(500, 500)
+				const response = await GridService.randomGrid(this.width, this.height)
 
 				const canvas = document.getElementById('canvas');
 				const ctx = canvas.getContext('2d');
@@ -39,7 +42,7 @@
 				const pixelData = response.data.pixels
 
 				const clampedPixelArray = Uint8ClampedArray.from(pixelData);
-				const pixelGridData = new ImageData(clampedPixelArray, 500, 500);
+				const pixelGridData = new ImageData(clampedPixelArray, this.width, this.height);
 
 				ctx.putImageData(pixelGridData, 0, 0);
 			}
