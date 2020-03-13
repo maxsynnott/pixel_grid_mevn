@@ -1,18 +1,15 @@
 <template>
-	<div id="grid">
-		<h1>{{ title }}</h1>
-
-		<canvas 
-			ref="grid_canvas"
-			:width="width"
-			:height="height">
-		</canvas>
-	</div>
+	<canvas 
+		ref="grid_canvas"
+		:width="width"
+		:height="height"
+		@click.left="leftClick"
+		@mousemove="mouseMove">
+	</canvas>
 </template>
 
 <style>
 	canvas {
-		border: 1px solid black;
 		image-rendering: pixelated;
 	}
 </style>
@@ -26,7 +23,9 @@
 			return {
 				title: 'Grid',
 				width: 500,
-				height: 500
+				height: 500,
+				mouseX: null,
+				mouseY: null
 			}
 		},
 		mounted() {
@@ -52,11 +51,22 @@
 
 				const grid = this.$refs['grid_canvas']
 
-				const controller = panzoom(
-					grid
-				)
+				const controller = panzoom(grid)
 
 				console.log(controller)
+			},
+			leftClick () {
+				console.log(this.mouseX)
+				console.log(this.mouseY)
+			},
+			mouseMove (event) {
+				const grid = this.$refs['grid_canvas']
+				const rect = grid.getBoundingClientRect()
+				const regex = /[.|\d]+/;
+				const zoom = grid.style.transform.match(regex);
+
+				this.mouseX = Math.floor((event.clientX - rect.left) / zoom)
+				this.mouseY = Math.floor((event.clientY - rect.top) / zoom)
 			}
 		}
 	}
