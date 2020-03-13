@@ -24,12 +24,29 @@
 				width: 500,
 				height: 500,
 				mouseX: null,
-				mouseY: null
+				mouseY: null,
+				color: 'white'
 			}
 		},
 		mounted() {
 			this.getRandomGrid()
 			this.activatePanzoom()
+
+			document.addEventListener('keyup', (event) => {
+				const colorObject = {
+					'1': 'white',
+					'2': 'black',
+					'3': 'red',
+					'4': 'green',
+					'5': 'blue'
+				}
+
+				if (colorObject[event.key]) {
+					this.color = colorObject[event.key]
+
+					console.log('Changed color to ' + colorObject[event.key])
+				}
+			})
 		},
 		methods: {
 			async getRandomGrid () {
@@ -50,15 +67,13 @@
 
 				const grid = this.$refs['grid_canvas']
 
-				const controller = panzoom(grid)
-
-				console.log(controller)
+				panzoom(grid)
 			},
 			leftClick () {
 				const canvas = this.$refs['grid_canvas'];
 				const ctx = canvas.getContext('2d');
 
-				ctx.fillStyle = 'white';
+				ctx.fillStyle = this.color;
 				ctx.fillRect(this.mouseX, this.mouseY, 1, 1);
 			},
 			mouseMove (event) {
